@@ -1,110 +1,50 @@
+.page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 300px 1fr; gap: 2rem; align-items: start; }
+@media (max-width: 768px) { .page { grid-template-columns: 1fr; } }
 
-.page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-}
+.sidebar { background: #fff; border-radius: 16px; padding: 2rem 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background: #fff;
-  border: 1px solid #e5e0d8;
-  border-radius: 10px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 2rem;
-}
+.avatar { width: 80px; height: 80px; border-radius: 50%; background: #2c1a0e; color: #f5e6d0; font-family: "Playfair Display", serif; font-size: 2rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
 
-.name {
-  font-family: "Playfair Display", serif;
-  font-size: 1.8rem;
-  color: #2c1a0e;
-  margin: 0 0 0.3rem;
-}
+.userName { font-family: "Playfair Display", serif; font-size: 1.3rem; color: #2c1a0e; margin: 0; font-weight: 700; }
 
-.email {
-  color: #7a6a5a;
-  margin: 0;
-  font-size: 0.95rem;
-}
+.userEmail { font-size: 0.9rem; color: #7a6a5a; margin: 0; }
 
-.logoutBtn {
-  padding: 0.6rem 1.2rem;
-  background: transparent;
-  border: 1px solid #c0392b;
-  border-radius: 6px;
-  color: #c0392b;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
+.memberSince { font-size: 0.8rem; color: #a09080; margin: 0; }
+
+.divider { width: 100%; height: 1px; background: #e5e0d8; margin: 0.75rem 0; }
+
+.infoRow { width: 100%; display: flex; justify-content: space-between; font-size: 0.875rem; padding: 0.3rem 0; }
+.infoLabel { color: #a09080; }
+.infoValue { color: #2c1a0e; font-weight: 500; }
+
+.logoutBtn { margin-top: 1rem; width: 100%; padding: 0.75rem; background: transparent; border: 1.5px solid #c0392b; border-radius: 8px; color: #c0392b; font-size: 0.9rem; cursor: pointer; font-family: inherit; transition: all 0.2s; }
 .logoutBtn:hover { background: #c0392b; color: #fff; }
 
-.section {
-  font-family: "Playfair Display", serif;
-  font-size: 1.4rem;
-  color: #2c1a0e;
-  margin: 0 0 1rem;
-}
+.main { background: #fff; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
 
-.empty {
-  color: #8b7355;
-  text-align: center;
-  padding: 3rem;
-}
+.ordersTitle { font-family: "Playfair Display", serif; font-size: 1.5rem; color: #2c1a0e; margin: 0 0 1.5rem; }
 
-.orders {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+.empty { color: #8b7355; text-align: center; padding: 2rem; }
 
-.order {
-  background: #fff;
-  border: 1px solid #e5e0d8;
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-}
+.orders { display: flex; flex-direction: column; gap: 1rem; }
 
-.orderHeader {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-  font-size: 0.9rem;
-  color: #5a4a3a;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-}
+.order { border: 1px solid #e5e0d8; border-radius: 12px; padding: 1.25rem 1.5rem; }
 
-.orderDate { color: #8b7355; font-weight: 400; }
+.orderHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
 
-.status {
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.78rem;
-}
+.orderLeft { display: flex; align-items: center; gap: 1rem; }
+
+.orderId { font-weight: 700; font-size: 0.95rem; color: #2c1a0e; }
+
+.orderDate { font-size: 0.85rem; color: #a09080; }
+
+.status { font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 20px; }
 .pending  { background: #fff3cd; color: #856404; }
 .paid     { background: #d1e7dd; color: #0f5132; }
 .shipped  { background: #cfe2ff; color: #084298; }
 
-.total {
-  margin-left: auto;
-  font-size: 1rem;
-  color: #2c1a0e;
-}
+.orderItems { display: flex; flex-direction: column; gap: 0.3rem; border-top: 1px solid #f0ebe3; padding-top: 0.75rem; margin-bottom: 0.75rem; }
 
-.items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.875rem;
-  color: #5a4a3a;
-  border-top: 1px solid #f0ebe3;
-  padding-top: 0.75rem;
-}
+.orderItem { font-size: 0.875rem; color: #5a4a3a; }
+
+.orderTotal { text-align: right; font-weight: 700; font-size: 0.95rem; color: #2c1a0e; }
