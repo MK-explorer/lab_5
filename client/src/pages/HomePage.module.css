@@ -1,0 +1,114 @@
+/* src/pages/HomePage.module.css */
+.page {
+  min-height: 100vh;
+}
+
+.hero {
+  background: #2c1a0e;
+  padding: 6rem 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroContent {
+  max-width: 600px;
+}
+
+.heroTitle {
+  font-family: "Playfair Display", serif;
+  font-size: 4rem;
+  color: #f5e6d0;
+  margin: 0 0 1rem;
+  font-weight: 700;
+}
+
+.heroSub {
+  font-size: 1.15rem;
+  color: #c4a882;
+  line-height: 1.7;
+  margin: 0 0 2.5rem;
+}
+
+.heroBtn {
+  display: inline-block;
+  background: #8b5e3c;
+  color: #fff;
+  padding: 0.9rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.heroBtn:hover { background: #a0714e; }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding: 4rem 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: #fff;
+  border: 1px solid #e5e0d8;
+  border-radius: 12px;
+}
+
+.featureIcon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.feature h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  color: #2c1a0e;
+  margin: 0 0 0.5rem;
+}
+
+.feature p {
+  font-size: 0.9rem;
+  color: #7a6a5a;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cta {
+  background: #f0e8dc;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.cta h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: #2c1a0e;
+  margin: 0 0 0.75rem;
+}
+
+.cta p {
+  color: #7a6a5a;
+  font-size: 1rem;
+  margin: 0 0 2rem;
+}
+
+.ctaBtn {
+  display: inline-block;
+  background: #2c1a0e;
+  color: #f5e6d0;
+  padding: 0.85rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.ctaBtn:hover { background: #3d2510; }

@@ -1,0 +1,82 @@
+/* src/components/Navbar.module.css */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: #2c1a0e;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  color: #f5e6d0;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.link {
+  color: #d4b896;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.15s;
+}
+.link:hover { color: #f5e6d0; }
+
+.btnLink {
+  color: #fff;
+  background: #8b5e3c;
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.btnLink:hover { background: #a0714e; }
+
+.logoutBtn {
+  background: transparent;
+  border: 1px solid #5a4030;
+  color: #d4b896;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.logoutBtn:hover { border-color: #d4b896; color: #f5e6d0; }
+
+.cart {
+  color: #d4b896;
+  text-decoration: none;
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #c0392b;
+  color: #fff;
+  font-size: 0.65rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
