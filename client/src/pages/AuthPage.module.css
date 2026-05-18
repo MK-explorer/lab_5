@@ -1,0 +1,102 @@
+/* src/pages/AuthPage.module.css */
+.container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.form {
+  background: #fff;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: #2c1a0e;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: #5a4a3a;
+  font-weight: 500;
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d0c8be;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #2c1a0e;
+  background: #faf8f5;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #8b5e3c;
+}
+
+.button {
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  background: #8b5e3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.button:hover:not(:disabled) {
+  background: #6e4a2e;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  background: #fde8e8;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.link {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #5a4a3a;
+  margin: 0;
+}
+
+.link a {
+  color: #8b5e3c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link a:hover {
+  text-decoration: underline;
+}
