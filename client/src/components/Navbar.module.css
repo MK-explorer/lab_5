@@ -1,4 +1,4 @@
-/* src/components/Navbar.module.css */
+
 .nav {
   display: flex;
   align-items: center;
@@ -80,3 +80,19 @@
   justify-content: center;
   font-weight: 700;
 }
+
+.cartBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #8b5e3c;
+  color: #fff;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  transition: background 0.15s;
+}
+.cartBtn:hover { background: #a0714e; }

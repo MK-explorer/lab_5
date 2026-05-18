@@ -31,8 +31,9 @@ export default function Navbar() {
           </>
         )}
 
-        <Link to="/cart" className={styles.cart}>
-           {count > 0 && <span className={styles.badge}>{count}</span>}
+        <Link to="/cart" className={styles.cartBtn}>
+          🛒 Кошик
+          {count > 0 && <span className={styles.badge}>{count}</span>}
         </Link>
       </div>
     </nav>

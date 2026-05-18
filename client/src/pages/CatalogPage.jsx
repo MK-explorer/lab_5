@@ -64,7 +64,7 @@ export default function CatalogPage() {
         <div className="loading">Завантаження книг</div>
       ) : filtered.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon"></div>
+          <div className="empty-icon">📚</div>
           <h3>Книг не знайдено</h3>
           <button className="btn-primary"
             onClick={() => { setActiveGenre('all'); setAuthorSearch(''); }}>
@@ -97,9 +97,12 @@ function BookCard({ book }) {
     <div className="book-card">
       <div className="book-cover">
         {book.cover
-          ? <img src={book.cover} alt={book.title} />
-          : <div className="book-cover-placeholder">{book.title}</div>
-        }
+          ? <img src={book.cover} alt={book.title}
+              onError={e => { e.target.style.display='none'; e.target.parentNode.querySelector('.book-cover-placeholder').style.display='flex'; }} />
+          : null}
+        <div className="book-cover-placeholder" style={{ display: book.cover ? 'none' : 'flex' }}>
+          {book.title}
+        </div>
       </div>
       <div className="book-info">
         {book.genre && <span className="book-genre">{book.genre.toUpperCase()}</span>}
