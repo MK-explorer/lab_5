@@ -1,13 +1,10 @@
-// src/components/Navbar.jsx
-// Замінити або оновити поточний Navbar
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useCart } from "../context/CartContext";
+import { useApp } from "../context/AppContext";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
-  const { count } = useCart();
+  const { currentUser, logout, cart } = useApp();
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
   const navigate = useNavigate();
 
   return (
@@ -17,9 +14,9 @@ export default function Navbar() {
       <div className={styles.links}>
         <Link to="/catalog" className={styles.link}>Каталог</Link>
 
-        {user ? (
+        {currentUser ? (
           <>
-            <Link to="/profile" className={styles.link}>{user.name}</Link>
+            <Link to="/account" className={styles.link}>{currentUser.name}</Link>
             <button
               className={styles.logoutBtn}
               onClick={() => { logout(); navigate("/"); }}
@@ -35,7 +32,7 @@ export default function Navbar() {
         )}
 
         <Link to="/cart" className={styles.cart}>
-          🛒 {count > 0 && <span className={styles.badge}>{count}</span>}
+           {count > 0 && <span className={styles.badge}>{count}</span>}
         </Link>
       </div>
     </nav>
