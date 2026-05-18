@@ -1,120 +1,111 @@
-// src/pages/CartPage.jsx
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
-import { createOrder } from "../api";
-import styles from "./CartPage.module.css";
+import { useNavigate } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
+import { createOrder } from '../api';
 
 export default function CartPage() {
-  const { items, removeFromCart, clearCart, total } = useCart();
-  const { user } = useAuth();
+  const { cart, currentUser, clearCart, showToast, incrementQty, decrementQty, removeFromCart } = useApp();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+
+  const totalQty   = cart.reduce((sum, i) => sum + i.qty, 0);
+  const totalPrice = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const delivery   = totalPrice >= 500 ? 0 : 75;
+  const grandTotal = totalPrice + delivery;
 
   async function handleOrder() {
-    if (!user) {
-      navigate("/login");
+    if (!currentUser) {
+      showToast('Увійдіть до акаунту для оформлення замовлення');
       return;
     }
-    if (items.length === 0) {
-      setError("Кошик порожній");
-      return;
-    }
-    setLoading(true);
-    setError("");
     try {
-      await createOrder(items.map((i) => ({ bookId: i.bookId, quantity: i.quantity })));
+      const order = await createOrder(
+        cart.map(i => ({ bookId: i.id, quantity: i.qty }))
+      );
       clearCart();
-      setSuccess(true);
+      const shortId = String(order.id).slice(-5).toUpperCase();
+      showToast(`Замовлення №${shortId} оформлено! `);
+      navigate('/account');
     } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      console.error(err);
+      showToast('Помилка збереження замовлення. Спробуйте ще раз.');
     }
   }
 
-  if (success) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.success}>
-          <span className={styles.successIcon}>✅</span>
-          <h2>Замовлення оформлено!</h2>
-          <p>Дякуємо за покупку. Деталі можна переглянути у профілі.</p>
-          <div className={styles.successLinks}>
-            <Link to="/profile" className={styles.btnPrimary}>Мій акаунт</Link>
-            <Link to="/catalog" className={styles.btnSecondary}>Продовжити покупки</Link>
-          </div>
-        </div>
+  if (cart.length === 0) return (
+    <div className="container page">
+      <div className="empty-state">
+        <div className="empty-icon">🛒</div>
+        <h3>Кошик порожній</h3>
+        <button className="btn-primary" onClick={() => navigate('/catalog')}>До каталогу</button>
       </div>
-    );
-  }
+    </div>
+  );
 
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>Кошик</h1>
-
-      {items.length === 0 ? (
-        <div className={styles.empty}>
-          <p>Кошик порожній</p>
-          <Link to="/catalog" className={styles.btnPrimary}>До каталогу</Link>
+    <div className="container page">
+      <h2 className="section-heading">Мій <em>кошик</em></h2>
+      <div className="cart-layout">
+        <div className="cart-items-list">
+          {cart.map(item => (
+            <CartItem
+              key={item.id}
+              item={item}
+              onIncrement={() => incrementQty(item.id)}
+              onDecrement={() => decrementQty(item.id)}
+              onRemove={() => removeFromCart(item.id)}
+            />
+          ))}
         </div>
-      ) : (
-        <div className={styles.layout}>
-          {/* Список товарів */}
-          <div className={styles.items}>
-            {items.map((item) => (
-              <div key={item.bookId} className={styles.item}>
-                <div className={styles.itemInfo}>
-                  <h3 className={styles.itemTitle}>{item.title}</h3>
-                  <p className={styles.itemPrice}>{item.price} ₴ × {item.quantity}</p>
-                </div>
-                <div className={styles.itemRight}>
-                  <span className={styles.itemTotal}>{item.price * item.quantity} ₴</span>
-                  <button
-                    className={styles.removeBtn}
-                    onClick={() => removeFromCart(item.bookId)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-            ))}
+        <aside className="cart-summary-box">
+          <h3>Підсумок замовлення</h3>
+          <div className="summary-row">
+            <span>Товари ({totalQty} шт.):</span><span>{totalPrice} грн</span>
           </div>
+          <div className="summary-row">
+            <span>Доставка:</span>
+            <span style={{ color: delivery === 0 ? 'var(--success)' : 'inherit' }}>
+              {delivery === 0 ? 'Безкоштовно' : `${delivery} грн`}
+            </span>
+          </div>
+          {delivery > 0 && (
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-lt)', marginTop: '4px' }}>
+              Безкоштовна доставка від 500 грн
+            </p>
+          )}
+          <div className="summary-row summary-total">
+            <span>Разом:</span><span>{grandTotal} грн</span>
+          </div>
+          <button className="btn-order" onClick={handleOrder}>
+            {currentUser ? 'Оформити замовлення' : ' Увійдіть для оформлення'}
+          </button>
+        </aside>
+      </div>
+    </div>
+  );
+}
 
-          {/* Підсумок */}
-          <div className={styles.summary}>
-            <h2 className={styles.summaryTitle}>Підсумок</h2>
-            <div className={styles.summaryRow}>
-              <span>Товарів:</span>
-              <span>{items.reduce((s, i) => s + i.quantity, 0)} шт.</span>
-            </div>
-            <div className={styles.summaryRow}>
-              <span>Доставка:</span>
-              <span>Безкоштовно</span>
-            </div>
-            <div className={styles.summaryTotal}>
-              <span>Разом:</span>
-              <span>{total} ₴</span>
-            </div>
-            {error && <p className={styles.error}>{error}</p>}
-            {!user && (
-              <p className={styles.hint}>
-                <Link to="/login">Увійдіть</Link>, щоб оформити замовлення
-              </p>
-            )}
-            <button
-              className={styles.orderBtn}
-              onClick={handleOrder}
-              disabled={loading}
-            >
-              {loading ? "Оформлення..." : "Оформити замовлення"}
-            </button>
-          </div>
+function CartItem({ item, onIncrement, onDecrement, onRemove }) {
+  return (
+    <div className="cart-item">
+      <div className="cart-item-cover">
+        {item.cover
+          ? <img src={item.cover} alt={item.title} />
+          : <div className="cart-item-placeholder">{item.title[0]}</div>
+        }
+      </div>
+      <div className="cart-item-info">
+        <h4 className="cart-item-title">{item.title}</h4>
+        <p className="cart-item-author">{item.author}</p>
+        <p className="cart-item-price">{item.price} грн</p>
+      </div>
+      <div className="cart-item-controls">
+        <div className="qty-counter">
+          <button className="qty-btn" onClick={onDecrement}>−</button>
+          <span className="qty-num">{item.qty}</span>
+          <button className="qty-btn" onClick={onIncrement}>+</button>
         </div>
-      )}
+        <p className="cart-item-total">{item.price * item.qty} грн</p>
+        <button className="cart-item-remove" onClick={onRemove}>✕</button>
+      </div>
     </div>
   );
 }

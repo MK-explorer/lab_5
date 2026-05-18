@@ -1,73 +1,75 @@
-// src/pages/HomePage.jsx
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getBooks } from "../api";
-import { useCart } from "../context/CartContext";
-import styles from "./HomePage.module.css";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getBooks } from '../api';
+import { useApp } from '../context/AppContext';
 
 export default function HomePage() {
-  const [featured, setFeatured] = useState([]);
-  const { addToCart } = useCart();
-  const [added, setAdded] = useState({});
+  const [books, setBooks]     = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getBooks({ limit: 4 }).then((d) => setFeatured(d.books)).catch(console.error);
+    getBooks({ limit: 4 })
+      .then(data => { setBooks(data.books); setLoading(false); })
+      .catch(() => setLoading(false));
   }, []);
 
-  function handleAdd(book) {
-    addToCart(book);
-    setAdded((prev) => ({ ...prev, [book.id]: true }));
-    setTimeout(() => setAdded((prev) => ({ ...prev, [book.id]: false })), 1500);
-  }
-
   return (
-    <div className={styles.page}>
-      {/* Hero */}
-      <section className={styles.hero}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>
-            Книжковий світ у <em>кожному домі</em>
-          </h1>
-          <p className={styles.heroSub}>
-            Понад {featured.length > 0 ? "15" : ""} книг для душі, розуму та натхнення. Українська класика, світові бестселери.
-          </p>
-          <Link to="/catalog" className={styles.heroBtn}>Перейти до каталогу →</Link>
+    <main>
+      <section className="hero">
+        <div className="hero-content">
+          <h1>Книжковий світ у <em>кожному домі</em></h1>
+          <p>Понад 15 книг для душі, розуму та натхнення. Українська класика, світові бестселери.</p>
+          <button className="hero-btn" onClick={() => navigate('/catalog')}>
+            Перейти до каталогу →
+          </button>
         </div>
       </section>
 
-      {/* Рекомендовані */}
-      {featured.length > 0 && (
-        <section className={styles.featured}>
-          <h2 className={styles.sectionTitle}>
-            Рекомендуємо <span className={styles.accent}>сьогодні</span>
-          </h2>
-          <div className={styles.divider} />
-          <div className={styles.grid}>
-            {featured.map((book) => (
-              <div key={book.id} className={styles.card}>
-                <div className={styles.cover}>
-                  {book.cover
-                    ? <img src={book.cover} alt={book.title} />
-                    : <div className={styles.coverPlaceholder}>{book.title}</div>
-                  }
-                </div>
-                <div className={styles.info}>
-                  {book.genre && <span className={styles.genre}>{book.genre.toUpperCase()}</span>}
-                  <h3 className={styles.bookTitle}>{book.title}</h3>
-                  <p className={styles.author}>{book.author}</p>
-                  <p className={styles.price}>{book.price} грн</p>
-                  <button
-                    className={`${styles.addBtn} ${added[book.id] ? styles.addedBtn : ""}`}
-                    onClick={() => handleAdd(book)}
-                  >
-                    {added[book.id] ? "✓ Додано" : "Додати до кошика"}
-                  </button>
-                </div>
-              </div>
-            ))}
+      <div className="container page">
+        <h2 className="section-heading">Рекомендуємо <em>сьогодні</em></h2>
+        {loading ? (
+          <div className="loading">Завантаження книг</div>
+        ) : (
+          <div className="books-grid">
+            {books.map(book => <BookCard key={book.id} book={book} />)}
           </div>
-        </section>
-      )}
+        )}
+        <div style={{ marginTop: '48px', textAlign: 'center' }}>
+          <button className="btn-primary" onClick={() => navigate('/catalog')}>
+            Переглянути весь каталог
+          </button>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function BookCard({ book }) {
+  const { addToCart, showToast } = useApp();
+
+  function handleAdd() {
+    addToCart(book);
+    showToast(`«${book.title}» додано до кошика`);
+  }
+
+  return (
+    <div className="book-card">
+      <div className="book-cover">
+        {book.cover
+          ? <img src={book.cover} alt={book.title} />
+          : <div className="book-cover-placeholder">{book.title}</div>
+        }
+      </div>
+      <div className="book-info">
+        {book.genre && <span className="book-genre">{book.genre.toUpperCase()}</span>}
+        <h3 className="book-title">{book.title}</h3>
+        <p className="book-author">{book.author}</p>
+        <div className="book-footer">
+          <span className="book-price">{book.price} грн</span>
+          <button className="btn-add" onClick={handleAdd}>Додати до кошика</button>
+        </div>
+      </div>
     </div>
   );
 }
